@@ -19,3 +19,13 @@ module.exports.getAllProducts = async (req, res) => {
     res.json(err);
   }
 };
+
+// Method to get a product by its ID
+module.exports.getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    return res.json(await Product.findById({ _id: id }));
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
