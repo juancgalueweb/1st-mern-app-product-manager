@@ -28,8 +28,7 @@ const ProductSchema = new Schema(
 );
 
 // Specifying a default custom error message by overriding the plugging default message
-uniqueValidator.defaults.message =
-  "/Production validation failed. The {PATH} has to be unique";
+uniqueValidator.defaults.message = "The {PATH} has to be unique";
 // Apply the uniqueValidator plugin to ProductSchema
 ProductSchema.plugin(uniqueValidator);
 

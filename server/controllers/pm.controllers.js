@@ -16,7 +16,7 @@ module.exports.getAllProducts = async (req, res) => {
     const products = await Product.find({});
     return res.json(products);
   } catch (err) {
-    res.json(err);
+    res.status(500).json(err);
   }
 };
 
@@ -25,6 +25,17 @@ module.exports.getProductById = async (req, res) => {
   try {
     const { id } = req.params;
     return res.json(await Product.findById({ _id: id }));
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// Method to delete a product by ID
+module.exports.deleteOneProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Product.deleteOne({ _id: id });
+    return res.json({ message: "The product was deleted" });
   } catch (err) {
     res.status(500).json(err);
   }

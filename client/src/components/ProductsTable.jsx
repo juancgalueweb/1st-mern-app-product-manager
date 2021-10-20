@@ -24,18 +24,23 @@ export const ProductsTable = ({ products, setProducts }) => {
 
   const deleteProduct = async (productId, productTitle) => {
     try {
-      await axios.delete(
-        `http://localhost:8080/api/product/delete/${productId}`
-      );
-      setProducts({
-        ...products,
-        productData: productData.filter((product) => product._id !== productId),
-      });
-      Swal.fire({
-        icon: "warning",
-        title: `"${productTitle}" deleted`,
-        showConfirmButton: false,
-        timer: 1500,
+      await Swal.fire({
+        title: `Are you sure you want to delete <strong>${productTitle}</strong>?`,
+        showCancelButton: true,
+        confirmButtonText: "Delete",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Deleted!", "", "success");
+          axios.delete(`http://localhost:8080/api/product/delete/${productId}`);
+          setProducts({
+            ...products,
+            productData: productData.filter(
+              (product) => product._id !== productId
+            ),
+          });
+        } else if (result.isDenied) {
+          Swal.fire("Product was not deleted", "", "info");
+        }
       });
     } catch (err) {
       console.log(err);
@@ -55,7 +60,7 @@ export const ProductsTable = ({ products, setProducts }) => {
           <h3 className="text-center mb-3">All products</h3>
           <p className="lead">
             If you want to update the products' list after creating new ones,
-            <span className="fw-bold text-danger">
+            <span className="fw-bold text-primary">
               {" "}
               please refresh the page
             </span>
