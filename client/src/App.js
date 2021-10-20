@@ -1,13 +1,12 @@
 import React from "react";
-import { ProductsNew } from "./components/ProductsNew";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import { ProductsTable } from "./components/ProductsTable";
 import { ProductDetails } from "./components/ProductDetails";
+import { ProductContainer } from "./components/ProductContainer";
 
 function App() {
   return (
@@ -15,8 +14,7 @@ function App() {
       <Switch>
         <Redirect exact from="/" to="/products" />
         <Route exact path="/products">
-          <ProductsNew />
-          <ProductsTable />
+          <ProductContainer />
         </Route>
         <Route path="/products/:id">
           <ProductDetails />

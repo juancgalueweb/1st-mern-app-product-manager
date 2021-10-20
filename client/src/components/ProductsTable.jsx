@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
@@ -6,13 +6,9 @@ import Row from "react-bootstrap/esm/Row";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-export const ProductsTable = () => {
-  const [products, setProducts] = useState({
-    productData: [],
-    loaded: false,
-  });
-
+export const ProductsTable = ({ products, setProducts }) => {
   const { productData, loaded } = products;
 
   const getAllProducts = async () => {
@@ -20,8 +16,27 @@ export const ProductsTable = () => {
       const allProducts = await axios.get(
         "http://localhost:8080/api/products/getAll"
       );
-      console.log(allProducts);
       setProducts({ productData: allProducts.data, loaded: true });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteProduct = async (productId, productTitle) => {
+    try {
+      await axios.delete(
+        `http://localhost:8080/api/product/delete/${productId}`
+      );
+      setProducts({
+        ...products,
+        productData: productData.filter((product) => product._id !== productId),
+      });
+      Swal.fire({
+        icon: "warning",
+        title: `"${productTitle}" deleted`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -50,22 +65,32 @@ export const ProductsTable = () => {
               <tr className="text-center">
                 <th>#</th>
                 <th>Product title</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loaded &&
-                productData.map((product, index) => (
+                productData?.map((product, index) => (
                   <tr key={index}>
-                    <td>{index + count}</td>
+                    <td className="text-center">{index + count}</td>
                     <td>{product.title}</td>
                     <td className="text-center">
-                      <Button variant="secondary">
+                      <Button variant="secondary" className="me-2">
                         <Link
                           to={`/products/${product._id}`}
                           className="text-decoration-none text-light"
                         >
                           Details
                         </Link>
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="ms-2"
+                        onClick={() => {
+                          deleteProduct(product._id, product.title);
+                        }}
+                      >
+                        Delete
                       </Button>
                     </td>
                   </tr>

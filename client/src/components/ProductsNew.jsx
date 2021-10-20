@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Swal from "sweetalert2";
 
-export const ProductsNew = () => {
+export const ProductsNew = ({ products, setProducts }) => {
   const ProductSchema = Yup.object().shape({
     title: Yup.string()
       .min(10, "10 characters min")
@@ -29,6 +29,10 @@ export const ProductsNew = () => {
         values
       );
       console.log(response);
+      setProducts({
+        ...products,
+        productData: [...products.productData, response.data],
+      });
       Swal.fire({
         icon: "success",
         title: `"${values.title}" successfully created`,
@@ -38,7 +42,14 @@ export const ProductsNew = () => {
       return resetForm({});
     } catch (err) {
       console.log(err.response.data);
-      const messageError = err.response.data.message.split("/")[1];
+      let messageError = err.response.data.message.split(":");
+      if (messageError.length === 3) {
+        messageError = err.response.data.message.split(":")[2];
+      } else if (messageError.length > 3) {
+        messageError = `${
+          err.response.data.message.split(":")[2].split(",")[0]
+        } AND ${err.response.data.message.split(":")[3].toLowerCase()}`;
+      }
       Swal.fire({
         icon: "error",
         title: "Oops...",

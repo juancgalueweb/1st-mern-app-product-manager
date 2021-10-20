@@ -5,6 +5,7 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Button from "react-bootstrap/Button";
+import moment from "moment";
 
 export const ProductDetails = () => {
   const [product, setProduct] = useState({});
@@ -43,10 +44,10 @@ export const ProductDetails = () => {
             <b>Description:</b> {product.description}
           </p>
           <p>
-            <b>Created:</b> {product.createdAt}
+            <b>Created:</b> {moment(product.createdAt).format("LLL")}
           </p>
           <p>
-            <b>Updated:</b> {product.updatedAt}
+            <b>Updated:</b> {moment(product.updatedAt).format("LLL")}
           </p>
           <Button variant="dark" type="button">
             <Link to={"/products"} className="text-decoration-none text-light">
