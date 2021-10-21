@@ -41,19 +41,13 @@ export const ProductsNew = ({ products, setProducts }) => {
       });
       return resetForm({});
     } catch (err) {
-      console.log(err.response.data);
-      let messageError = err.response.data.message.split(":");
-      if (messageError.length === 3) {
-        messageError = err.response.data.message.split(":")[2];
-      } else if (messageError.length > 3) {
-        messageError = `${
-          err.response.data.message.split(":")[2].split(",")[0]
-        } AND ${err.response.data.message.split(":")[3].toLowerCase()}`;
-      }
+      console.log(err.response);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: `${messageError}.`,
+        html: `<ul class="swal-list">${err.response.data.map(
+          (error) => `<li>${error}</li>`
+        )}</ul>`,
         confirmButtonText: "I'll fix it",
       });
     }

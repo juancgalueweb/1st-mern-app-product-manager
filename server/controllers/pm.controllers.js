@@ -6,7 +6,8 @@ module.exports.createProduct = async (req, res) => {
     const newProduct = await Product.create(req.body);
     return res.json(newProduct);
   } catch (err) {
-    res.status(500).json(err);
+    const errorMsg = Object.values(err.errors).map((val) => val.message);
+    res.status(500).json(errorMsg);
   }
 };
 
