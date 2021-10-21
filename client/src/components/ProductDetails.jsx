@@ -29,7 +29,7 @@ export const ProductDetails = () => {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col className="col-5 shadow bg-light rounded m-3 p-3">
           <h2>Product details</h2>
           <p>
             <b>ID:</b> {product._id}
@@ -49,7 +49,15 @@ export const ProductDetails = () => {
           <p>
             <b>Updated:</b> {moment(product.updatedAt).format("LLL")}
           </p>
-          <Button variant="dark" type="button">
+          <Button variant="primary" type="button">
+            <Link
+              to={`/product/edit/${product._id}`}
+              className="text-decoration-none text-light"
+            >
+              Edit
+            </Link>
+          </Button>
+          <Button variant="dark" type="button" className="ms-4">
             <Link to={"/products"} className="text-decoration-none text-light">
               Back to products
             </Link>

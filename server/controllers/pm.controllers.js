@@ -40,3 +40,19 @@ module.exports.deleteOneProduct = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+//Method to update a product by ID
+module.exports.updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    return res.json(
+      await Product.findOneAndUpdate({ _id: id }, body, {
+        new: true,
+        runValidators: true,
+      })
+    );
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};

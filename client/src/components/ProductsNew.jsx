@@ -60,9 +60,9 @@ export const ProductsNew = ({ products, setProducts }) => {
   };
 
   return (
-    <Container>
-      <Row className="mx-auto d-flex justify-content-center">
-        <Col className="col-5">
+    <Container className="shadow bg-light rounded py-4 my-2">
+      <Row className="mx-auto my-2 d-flex justify-content-center">
+        <Col>
           <h2 className="text-center">Product Manager</h2>
           <Formik
             initialValues={{

@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { ProductDetails } from "./components/ProductDetails";
 import { ProductContainer } from "./components/ProductContainer";
+import { ProductEdit } from "./components/ProductEdit";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
         </Route>
         <Route path="/products/:id">
           <ProductDetails />
+        </Route>
+        <Route exact path="/product/edit/:id">
+          <ProductEdit />
         </Route>
       </Switch>
     </Router>

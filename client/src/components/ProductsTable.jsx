@@ -7,10 +7,13 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export const ProductsTable = ({ products, setProducts }) => {
   const { productData, loaded } = products;
 
+  //Get all products
   const getAllProducts = async () => {
     try {
       const allProducts = await axios.get(
@@ -22,6 +25,7 @@ export const ProductsTable = ({ products, setProducts }) => {
     }
   };
 
+  // Delete a product by ID
   const deleteProduct = async (productId, productTitle) => {
     try {
       await Swal.fire({
@@ -53,18 +57,10 @@ export const ProductsTable = ({ products, setProducts }) => {
   let count = 1;
 
   return (
-    <Container>
-      <Row className="my-2 d-flex justify-content-center">
-        <hr className="my-2" />
-        <Col className="col-6 my-2">
-          <h3 className="text-center mb-3">All products</h3>
-          <p className="lead">
-            If you want to update the products' list after creating new ones,
-            <span className="fw-bold text-primary">
-              {" "}
-              please refresh the page
-            </span>
-          </p>
+    <Container className="shadow bg-light rounded py-4 my-2">
+      <Row className="mx-auto my-2 d-flex justify-content-center">
+        <Col>
+          <h2 className="text-center">All products</h2>
           <Table striped bordered hover>
             <thead>
               <tr className="text-center">
@@ -80,6 +76,13 @@ export const ProductsTable = ({ products, setProducts }) => {
                     <td className="text-center">{index + count}</td>
                     <td>{product.title}</td>
                     <td className="text-center">
+                      <Link to={`/product/edit/${product._id}`}>
+                        <FontAwesomeIcon
+                          icon={faEdit}
+                          size="lg"
+                          className="me-4 font-awesome"
+                        />
+                      </Link>
                       <Button variant="secondary" className="me-2">
                         <Link
                           to={`/products/${product._id}`}

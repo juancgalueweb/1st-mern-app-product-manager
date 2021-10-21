@@ -3,6 +3,7 @@ const {
   getAllProducts,
   getProductById,
   deleteOneProduct,
+  updateProduct,
 } = require("../controllers/pm.controllers");
 
 module.exports = (app) => {
@@ -10,4 +11,5 @@ module.exports = (app) => {
   app.get("/api/products/getAll", getAllProducts);
   app.get("/api/products/:id", getProductById);
   app.delete("/api/product/delete/:id", deleteOneProduct);
+  app.put("/api/product/edit/:id", updateProduct);
 };
