@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Swal from "sweetalert2";
 
-export const ProductsNew = () => {
+export const ProductsNew = ({ products, setProducts }) => {
   const ProductSchema = Yup.object().shape({
     title: Yup.string()
       .min(10, "10 characters min")
@@ -29,6 +29,10 @@ export const ProductsNew = () => {
         values
       );
       console.log(response);
+      setProducts({
+        ...products,
+        productData: [...products.productData, response.data],
+      });
       Swal.fire({
         icon: "success",
         title: `"${values.title}" successfully created`,
@@ -37,21 +41,22 @@ export const ProductsNew = () => {
       });
       return resetForm({});
     } catch (err) {
-      console.log(err.response.data);
-      const messageError = err.response.data.message.split("/")[1];
+      console.log(err.response);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: `${messageError}.`,
+        html: `<ul class="swal-list">${err.response.data.map(
+          (error) => `<li>${error}</li>`
+        )}</ul>`,
         confirmButtonText: "I'll fix it",
       });
     }
   };
 
   return (
-    <Container>
-      <Row className="mx-auto d-flex justify-content-center">
-        <Col className="col-5">
+    <Container className="shadow bg-light rounded py-4 my-2">
+      <Row className="mx-auto my-2 d-flex justify-content-center">
+        <Col>
           <h2 className="text-center">Product Manager</h2>
           <Formik
             initialValues={{
