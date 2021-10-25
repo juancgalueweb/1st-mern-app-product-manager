@@ -36,8 +36,7 @@ export const ProductsNew = ({ products, setProducts }) => {
       Swal.fire({
         icon: "success",
         title: `"${values.title}" successfully created`,
-        showConfirmButton: false,
-        timer: 2000,
+        showConfirmButton: true,
       });
       return resetForm({});
     } catch (err) {
